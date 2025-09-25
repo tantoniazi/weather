@@ -68,9 +68,6 @@ gem "bootstrap"
 gem "redis", "~> 5.0"
 gem "dartsass-rails"
 gem "cssbundling-rails", "~> 1.4"
-
-group :development, :test do
-  gem "rswag-api"
-  gem "rswag-ui"
-  gem "rswag-specs"
-end
+gem "rswag-api"
+gem "rswag-ui"
+gem "rswag-specs"
