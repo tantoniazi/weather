@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  temperature: MyString
+  temp_min: MyString
+  temp_max: MyString
+  description: MyString
+
+two:
+  temperature: MyString
+  temp_min: MyString
+  temp_max: MyString
+  description: MyString
