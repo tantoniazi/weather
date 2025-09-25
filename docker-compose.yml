@@ -1,5 +1,6 @@
 volumes:
   pgadmin_data:
+  bundle_cache: 
 
 services:
   weather-pg:
@@ -25,13 +26,13 @@ services:
       - ${REDIS_PORT}:6379
     restart: always
 
-  weather-mail:
-    container_name: weather-mail
+  mailhog:
+    container_name: mailhog
     platform: linux/amd64
-    image: djfarrelly/maildev
+    image: mailhog/mailhog
     ports:
-      - "${WEB_PORT}:1080"
-      - "${MAIL_PORT}:1025"
+      - "8025:8025"  # Interface web do MailHog
+      - "1025:1025"  # SMTP server
     restart: always
 
   web:
@@ -39,12 +40,14 @@ services:
     tty: true
     platform: linux/amd64
     container_name: web
+    build: .
     env_file:
       - .env
     depends_on:
       - weather-pg
       - weather-redis
-    command: bash -c "bin/rails db:prepare && bin/rails s -b 0.0.0.0 -p 3000"
+      - mailhog
+    command: ./bin/start
     volumes:
       - .:/app
       - bundle_cache:/usr/local/bundle

@@ -3,10 +3,8 @@
 SHELL := /bin/sh
 ARG=
 TARGET ?= ..
-COMPOSE_PROJECT_NAME=weather
 COMPOSE_DOCKER_CLI_BUILD=1
 DOCKER_BUILDKIT=1
-DOCKER_COMPOSE=docker compose -p nobe
 DEFAULT: help
 
 help: ## Show this help
@@ -15,16 +13,16 @@ help: ## Show this help
 
 # Container Management Commands
 up: ## Iniciar todos os serviços
-	$(DOCKER_COMPOSE) up -d --remove-orphans
+	docker compose -p weather up -d --remove-orphans
 
 down: ## Parar todos os serviços
-	$(DOCKER_COMPOSE) down
+	docker compose -p weather down
 
 logs: ## Visualizar logs de todos os serviços
-	$(DOCKER_COMPOSE) logs -f $(ARG)
+	docker compose -p weather logs -f $(ARG)
 
 ps: ## Listar status dos containers
-	$(DOCKER_COMPOSE) ps
+	docker compose -p weather ps
 
 prune: ## Limpar recursos não utilizados (containers, networks, volumes)
 	docker system prune -f

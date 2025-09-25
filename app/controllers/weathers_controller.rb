@@ -1,9 +1,25 @@
 class WeathersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_weather, only: %i[ show edit update destroy ]
 
   # GET /weathers or /weathers.json
   def index
-    @weathers = Weather.all
+    @weathers = current_user.weathers.order(created_at: :desc).page(params[:page]).per(10)
+  end
+
+  # GET /weathers/search
+  def search
+    if params[:zipcode].present?
+      zipcode = params[:zipcode].gsub(/\D/, "") # Remove caracteres não numéricos
+
+      if zipcode.length == 8
+        @weather_data = WeatherService.new(zipcode, current_user).forecast
+      else
+        @weather_data = { error: "CEP deve ter 8 dígitos" }
+      end
+    end
+
+    render "home/index"
   end
 
   # GET /weathers/1 or /weathers/1.json
@@ -58,13 +74,14 @@ class WeathersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_weather
-      @weather = Weather.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def weather_params
-      params.expect(weather: [ :temperature, :temp_min, :temp_max, :description ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_weather
+    @weather = current_user.weathers.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def weather_params
+    params.expect(weather: [:temperature, :temp_min, :temp_max, :description])
+  end
 end
