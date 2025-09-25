@@ -99,11 +99,20 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    caxlsx (4.4.0)
+      htmlentities (~> 4.3, >= 4.3.4)
+      marcel (~> 1.0)
+      nokogiri (~> 1.10, >= 1.10.4)
+      rubyzip (>= 2.4, < 4)
+    caxlsx_rails (0.6.4)
+      actionpack (>= 3.1)
+      caxlsx (>= 3.0)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     crass (1.0.6)
-    cssbundling-rails (1.4.3)
-      railties (>= 6.0.0)
     csv (3.3.5)
     dartsass-rails (0.5.1)
       railties (>= 6.0.0)
@@ -125,6 +134,8 @@ GEM
     erubi (1.13.1)
     et-orbi (1.3.0)
       tzinfo
+    foreman (0.90.0)
+      thor (~> 1.4)
     fugit (1.11.2)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -151,6 +162,8 @@ GEM
     google-protobuf (4.32.1-x86_64-linux-musl)
       bigdecimal
       rake (>= 13)
+    hashdiff (1.2.1)
+    htmlentities (4.3.4)
     httparty (0.23.1)
       csv
       mini_mime (>= 1.0.0)
@@ -184,6 +197,18 @@ GEM
       sshkit (>= 1.23.0, < 2.0)
       thor (~> 1.3)
       zeitwerk (>= 2.6.18, < 3.0)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -239,6 +264,7 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
+    pdf-core (0.10.0)
     pg (1.6.2)
     pg (1.6.2-aarch64-linux)
     pg (1.6.2-aarch64-linux-musl)
@@ -249,6 +275,12 @@ GEM
     popper_js (2.11.8)
     pp (0.6.2)
       prettyprint
+    prawn (2.5.0)
+      matrix (~> 0.4)
+      pdf-core (~> 0.10.0)
+      ttfunk (~> 1.8)
+    prawn-table (0.2.2)
+      prawn (>= 1.3.0, < 3.0.0)
     prettyprint (0.2.0)
     prism (1.5.1)
     propshaft (1.3.1)
@@ -264,6 +296,8 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.2.1)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -418,6 +452,8 @@ GEM
     thruster (0.1.15-x86_64-linux)
     timeout (0.4.3)
     tsort (0.2.0)
+    ttfunk (1.8.0)
+      bigdecimal (~> 3.1)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
@@ -435,6 +471,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webmock (3.25.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.11)
     websocket-driver (0.8.0)
       base64
@@ -461,17 +501,24 @@ DEPENDENCIES
   bootstrap
   brakeman
   capybara
-  cssbundling-rails (~> 1.4)
+  caxlsx
+  caxlsx_rails
+  csv
   dartsass-rails
   debug
   devise
+  foreman
   httparty
   importmap-rails
   jbuilder
   kamal
+  kaminari
   pg (~> 1.1)
+  prawn
+  prawn-table
   propshaft
   puma (>= 5.0)
+  rack-attack
   rails (~> 8.0.3)
   redis (~> 5.0)
   rswag-api
@@ -487,6 +534,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+  webmock
 
 BUNDLED WITH
    2.7.1

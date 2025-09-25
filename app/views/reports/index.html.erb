@@ -1,0 +1,179 @@
+<% content_for :title, "Relatórios de Clima" %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-chart-line"></i> Relatórios de Clima</h2>
+        <%= link_to "Voltar", root_path, class: "btn btn-secondary" %>
+      </div>
+
+      <!-- Filtros -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros</h5>
+        </div>
+        <div class="card-body">
+          <%= form_with url: reports_path, method: :get, local: true, class: "row g-3" do |form| %>
+            <div class="col-md-4">
+              <%= form.label :zip_code, "CEP", class: "form-label" %>
+              <%= form.text_field :zip_code,
+                                  value: params[:zip_code],
+                                  placeholder: "Digite o CEP",
+                                  class: "form-control" %>
+            </div>
+            
+            <div class="col-md-3">
+              <%= form.label :created_at_start, "Data Início", class: "form-label" %>
+              <%= form.date_field :created_at_start,
+                                  value: params[:created_at_start],
+                                  class: "form-control" %>
+            </div>
+            
+            <div class="col-md-3">
+              <%= form.label :created_at_end, "Data Fim", class: "form-label" %>
+              <%= form.date_field :created_at_end,
+                                  value: params[:created_at_end],
+                                  class: "form-control" %>
+            </div>
+            
+            <div class="col-md-2 d-flex align-items-end">
+              <%= form.submit "Filtrar", class: "btn btn-primary me-2" %>
+              <%= link_to "Limpar", reports_path, class: "btn btn-outline-secondary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Botões de Export -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fas fa-download"></i> Exportar Relatório</h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted">Total de registros encontrados: <strong><%= @total_count %></strong></p>
+          
+          <div class="btn-group" role="group">
+            <%= link_to export_reports_path(format: "csv", **params.permit(:zip_code, :created_at_start, :created_at_end)),
+                        class: "btn btn-success", method: :post do %>
+              <i class="fas fa-file-csv"></i> Exportar CSV
+            <% end %>
+            
+            <%= link_to export_reports_path(format: "xlsx", **params.permit(:zip_code, :created_at_start, :created_at_end)),
+                        class: "btn btn-primary", method: :post do %>
+              <i class="fas fa-file-excel"></i> Exportar Excel
+            <% end %>
+            
+            <%= link_to export_reports_path(format: "pdf", **params.permit(:zip_code, :created_at_start, :created_at_end)),
+                        class: "btn btn-danger", method: :post do %>
+              <i class="fas fa-file-pdf"></i> Exportar PDF
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabela de Dados -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0"><i class="fas fa-table"></i> Dados do Relatório</h5>
+        </div>
+        <div class="card-body">
+          <% if @weathers.any? %>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>CEP</th>
+                    <th>Temperatura</th>
+                    <th>Temp. Mín</th>
+                    <th>Temp. Máx</th>
+                    <th>Descrição</th>
+                    <th>Data/Hora</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @weathers.each do |weather| %>
+                    <tr>
+                      <td><%= weather.zip %></td>
+                      <td>
+                        <span class="badge bg-primary">
+                          <%= weather.temperature %>°C
+                        </span>
+                      </td>
+                      <td>
+                        <span class="badge bg-info">
+                          <%= weather.temp_min %>°C
+                        </span>
+                      </td>
+                      <td>
+                        <span class="badge bg-warning">
+                          <%= weather.temp_max %>°C
+                        </span>
+                      </td>
+                      <td>
+                        <span class="text-capitalize">
+                          <%= weather.description %>
+                        </span>
+                      </td>
+                      <td>
+                        <small>
+                          <%= weather.created_at.strftime("%d/%m/%Y %H:%M") %>
+                        </small>
+                      </td>
+                      <td>
+                        <%= link_to "Ver", weather, class: "btn btn-sm btn-outline-primary" %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginação -->
+            <div class="d-flex justify-content-center mt-4">
+              <%= paginate @weathers, theme: "twitter-bootstrap-4" %>
+            </div>
+          <% else %>
+            <div class="text-center py-5">
+              <i class="fas fa-search fa-3x text-muted mb-3"></i>
+              <h4>Nenhum registro encontrado</h4>
+              <p class="text-muted">Tente ajustar os filtros ou faça uma nova busca de clima.</p>
+              <%= link_to "Buscar Clima", root_path, class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+.table th {
+  border-top: none;
+}
+
+.btn-group .btn {
+  margin-right: 0.5rem;
+}
+
+.badge {
+  font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+  .btn-group {
+    flex-direction: column;
+  }
+  
+  .btn-group .btn {
+    margin-bottom: 0.5rem;
+    margin-right: 0;
+  }
+}</style>

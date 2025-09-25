@@ -2,9 +2,10 @@ class WeatherService
   include HTTParty
   base_uri "https://api.openweathermap.org/data/2.5"
 
-  def initialize(zip)
+  def initialize(zip, user = nil)
     @zip = zip
-    @api_key = ENV.fetch("OPENWEATHER_API_KEY")
+    @user = user
+    @api_key = Rails.application.credentials.OPENWEATHER_API_KEY
   end
 
   def forecast
@@ -32,7 +33,7 @@ class WeatherService
             temp_min: data[:temp_min],
             temp_max: data[:temp_max],
             description: data[:description],
-            user_id: current_user.id,
+            user_id: @user&.id,
           },
         )
 
@@ -40,7 +41,7 @@ class WeatherService
       else
         Rails.logger.warn("WeatherService: API vazia/erro para zip #{@zip}. Usando fallback do banco...")
 
-        if (record = Weather.find_by(zip: @zip).last)
+        if (record = Weather.where(zip: @zip).last)
           {
             temperature: record.temperature,
             temp_min: record.temp_min,

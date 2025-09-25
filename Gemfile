@@ -67,7 +67,23 @@ gem "httparty"
 gem "bootstrap"
 gem "redis", "~> 5.0"
 gem "dartsass-rails"
-gem "cssbundling-rails", "~> 1.4"
 gem "rswag-api"
 gem "rswag-ui"
 gem "rswag-specs"
+gem "webmock"
+
+# Rate limiting
+gem "rack-attack"
+
+# Paginação
+gem "kaminari"
+
+# Export de relatórios
+gem "csv"
+gem "caxlsx"
+gem "caxlsx_rails"
+gem "prawn"
+gem "prawn-table"
+
+# Process management
+gem "foreman"

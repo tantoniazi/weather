@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Script de inicialização usando Foreman
+set -e
+
+echo "🚀 Iniciando aplicação Weather com Foreman..."
+
+# Preparar o banco de dados
+echo "📊 Preparando banco de dados..."
+bin/rails db:prepare
+
+# Iniciar com Foreman
+echo "🎯 Iniciando processos com Foreman..."
+exec foreman start -f Procfile.dev
