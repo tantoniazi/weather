@@ -1,0 +1,53 @@
+volumes:
+  pgadmin_data:
+
+services:
+  weather-pg:
+    container_name: weather-pg
+    platform: linux/amd64
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./db/postgres/data:/var/lib/postgresql/data
+    ports:
+      - ${PG_PORT}:5432
+    restart: always
+
+  weather-redis:
+    container_name: weather-redis
+    platform: linux/amd64
+    image: redis
+    volumes:
+    - ./db/redis/data:/data
+    ports:
+      - ${REDIS_PORT}:6379
+    restart: always
+
+  weather-mail:
+    container_name: weather-mail
+    platform: linux/amd64
+    image: djfarrelly/maildev
+    ports:
+      - "${WEB_PORT}:1080"
+      - "${MAIL_PORT}:1025"
+    restart: always
+
+  web:
+    stdin_open: true
+    tty: true
+    platform: linux/amd64
+    container_name: web
+    env_file:
+      - .env
+    depends_on:
+      - weather-pg
+      - weather-redis
+    command: bash -c "bin/rails db:prepare && bin/rails s -b 0.0.0.0 -p 3000"
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - 3000
+    restart: always  

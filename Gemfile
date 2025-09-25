@@ -61,3 +61,11 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "devise"
+gem "httparty"
+gem "bootstrap"
+gem "redis", "~> 5.0"
+gem "dartsass-rails"
+
+gem "cssbundling-rails", "~> 1.4"
