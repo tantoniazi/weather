@@ -69,4 +69,5 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Foreman by default, this can be overwritten at runtime
 EXPOSE 3000
+#CMD ["sleep", "infinity"]
 CMD ["foreman", "start", "-f", "Procfile.dev"]

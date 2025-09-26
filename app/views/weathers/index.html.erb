@@ -43,7 +43,7 @@
                   <div class="card-body">
                     <h4 class="card-title">
                       <i class="fas fa-map-marker-alt"></i> 
-                      Clima para CEP: <%= @weather_data[:zip_code] %>
+                      Clima para CEP: <%= params[:zipcode] %>
                       <% if @weather_data[:from_cache] %>
                         <span class="badge bg-success">Cache</span>
                       <% elsif @weather_data[:from_database] %>

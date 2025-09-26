@@ -139,7 +139,7 @@
             
             <!-- Paginação dos relatórios -->
             <div class="d-flex justify-content-center mt-3">
-              <%= paginate @reports, param_name: :reports_page, theme: "twitter-bootstrap-4" %>
+              <%= paginate @reports, param_name: :reports_page %>
             </div>
           </div>
         </div>
@@ -205,7 +205,7 @@
 
             <!-- Paginação -->
             <div class="d-flex justify-content-center mt-4">
-              <%= paginate @weathers, theme: "twitter-bootstrap-4" %>
+              <%= paginate @weathers %>
             </div>
           <% else %>
             <div class="text-center py-5">

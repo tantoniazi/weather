@@ -17,9 +17,13 @@ class WeatherService
   private
 
   def request_api
+    viacep = HTTParty.get("https://viacep.com.br/ws/#{@zip_code}/json/")
+    city = viacep["localidade"]
+
     response = self.class.get("/weather", query: {
-                                            zip: "#{@zip_code},br",
+                                            q: "#{city},BR",
                                             units: "metric",
+                                            lang: "pt_br",
                                             appid: @api_key,
                                           })
 
