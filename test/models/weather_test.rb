@@ -17,19 +17,19 @@ class WeatherTest < ActiveSupport::TestCase
     assert @weather.valid?
   end
 
-  test "zip should be present" do
-    @weather.zip = "   "
+  test "zip_code should be present" do
+    @weather.zip_code = "   "
     assert_not @weather.valid?
   end
 
-  test "zip should be 8 digits" do
-    @weather.zip = "123"
+  test "zip_code should be 8 digits" do
+    @weather.zip_code = "123"
     assert_not @weather.valid?
 
-    @weather.zip = "123456789"
+    @weather.zip_code = "123456789"
     assert_not @weather.valid?
 
-    @weather.zip = "01310100"
+    @weather.zip_code = "01310100"
     assert @weather.valid?
   end
 
@@ -96,7 +96,7 @@ class WeatherTest < ActiveSupport::TestCase
   end
 
   test "should not save with invalid attributes" do
-    @weather.zip = "123"
+    @weather.zip_code = "123"
     assert_no_difference "Weather.count" do
       @weather.save
     end

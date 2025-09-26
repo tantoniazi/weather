@@ -1,0 +1,206 @@
+<% content_for :title, "Weather System - Sistema de Clima" %>
+
+<div class="hero-section bg-primary text-white py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-4">
+          <i class="fas fa-cloud-sun me-3"></i>
+          Weather System
+        </h1>
+        <p class="lead mb-4">
+          Consulte as condições climáticas de qualquer cidade brasileira através do CEP. 
+          Sistema completo com relatórios, histórico e API para desenvolvedores.
+        </p>
+        <div class="d-flex gap-3">
+          <%= link_to "Entrar", new_user_session_path, class: "btn btn-light btn-lg" %>
+          <%= link_to "Cadastrar", new_user_registration_path, class: "btn btn-outline-light btn-lg" %>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <i class="fas fa-cloud-sun display-1 opacity-75"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+  <!-- Features Section -->
+  <div class="row mb-5">
+    <div class="col-12 text-center mb-5">
+      <h2 class="display-5 fw-bold">Recursos do Sistema</h2>
+      <p class="lead text-muted">Tudo que você precisa para consultar o clima</p>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+            <i class="fas fa-search fa-lg"></i>
+          </div>
+          <h5 class="card-title">Consulta por CEP</h5>
+          <p class="card-text text-muted">
+            Digite qualquer CEP brasileiro e obtenha informações detalhadas sobre temperatura, 
+            condições climáticas e previsões.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+            <i class="fas fa-chart-line fa-lg"></i>
+          </div>
+          <h5 class="card-title">Relatórios Detalhados</h5>
+          <p class="card-text text-muted">
+            Gere relatórios em PDF, Excel ou CSV com histórico de consultas, 
+            filtros por data e exportação de dados.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center border-0 shadow-sm">
+        <div class="card-body p-4">
+          <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+            <i class="fas fa-code fa-lg"></i>
+          </div>
+          <h5 class="card-title">API RESTful</h5>
+          <p class="card-text text-muted">
+            Integre o sistema em suas aplicações através de nossa API RESTful 
+            com autenticação JWT e documentação completa.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it Works Section -->
+  <div class="row mb-5">
+    <div class="col-12 text-center mb-5">
+      <h2 class="display-5 fw-bold">Como Funciona</h2>
+      <p class="lead text-muted">Simples e rápido em 3 passos</p>
+    </div>
+    
+    <div class="col-md-4 text-center mb-4">
+      <div class="position-relative">
+        <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+          <span class="fs-2 fw-bold">1</span>
+        </div>
+        <h5>Cadastre-se</h5>
+        <p class="text-muted">Crie sua conta gratuitamente em poucos segundos</p>
+      </div>
+    </div>
+    
+    <div class="col-md-4 text-center mb-4">
+      <div class="position-relative">
+        <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+          <span class="fs-2 fw-bold">2</span>
+        </div>
+        <h5>Digite o CEP</h5>
+        <p class="text-muted">Insira qualquer CEP brasileiro para consultar o clima</p>
+      </div>
+    </div>
+    
+    <div class="col-md-4 text-center mb-4">
+      <div class="position-relative">
+        <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+          <span class="fs-2 fw-bold">3</span>
+        </div>
+        <h5>Veja os Resultados</h5>
+        <p class="text-muted">Obtenha informações detalhadas sobre o clima local</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card bg-dark text-white">
+        <div class="card-body p-5">
+          <div class="row align-items-center">
+            <div class="col-lg-8">
+              <h3 class="card-title mb-3">
+                <i class="fas fa-code me-2"></i>
+                API para Desenvolvedores
+              </h3>
+              <p class="card-text mb-4">
+                Integre nosso sistema em suas aplicações com nossa API RESTful. 
+                Documentação completa, autenticação JWT e suporte a múltiplos formatos.
+              </p>
+              <div class="d-flex gap-3">
+                <%= link_to "Documentação da API", "/api-docs", class: "btn btn-light" %>
+                <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#apiExampleModal">
+                  Ver Exemplo
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-4 text-center">
+              <i class="fas fa-terminal display-1 opacity-50"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- API Example Modal -->
+<div class="modal fade" id="apiExampleModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-code me-2"></i>
+          Exemplo de Uso da API
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Requisição:</h6>
+        <pre class="bg-light p-3 rounded"><code>curl -H "Authorization: Bearer SEU_TOKEN" \
+     http://localhost:3000/api/v1/weathers/01310100</code></pre>
+        
+        <h6>Resposta:</h6>
+        <pre class="bg-light p-3 rounded"><code>{
+  "temperature": 25.0,
+  "temp_min": 20.0,
+  "temp_max": 30.0,
+  "description": "céu limpo",
+  "from_cache": false,
+  "from_database": false
+}</code></pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <%= link_to "Ver Documentação", "/api-docs", class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+pre {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+</style>

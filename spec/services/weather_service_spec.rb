@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe WeatherService, type: :service do
   let(:zip) { "12345" }
   let(:user) { create(:user) }
-  let(:service) { described_class.new(zip, user) }
+  let(:service) { described_class.new(zip_code, user) }
 
   describe "#forecast" do
     context "quando a API retorna sucesso" do
@@ -42,7 +42,7 @@ RSpec.describe WeatherService, type: :service do
         stub_request(:get, %r{api.openweathermap.org/data/2.5/weather})
           .to_return(status: 200, body: {}.to_json, headers: { "Content-Type" => "application/json" })
 
-        create(:weather, zip: zip, temperature: 20.0, description: "fallback", user: user)
+        create(:weather, zip: zip_code, temperature: 20.0, description: "fallback", user: user)
       end
 
       it "usa o dado do banco" do
@@ -75,7 +75,7 @@ RSpec.describe WeatherService, type: :service do
     end
 
     context "quando usuário é nil" do
-      let(:service) { described_class.new(zip, nil) }
+      let(:service) { described_class.new(zip_code, nil) }
 
       it "salva weather sem user_id" do
         stub_request(:get, %r{api.openweathermap.org/data/2.5/weather})

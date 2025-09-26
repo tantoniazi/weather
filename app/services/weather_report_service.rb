@@ -7,7 +7,7 @@ class WeatherReportService
 
   def initialize(user, filters = {})
     @user = user
-    @filters = filters.with_indifferent_access
+    @filters = filters.is_a?(ActionController::Parameters) ? filters.to_h : filters
   end
 
   def generate_report(format = :csv)
@@ -27,7 +27,7 @@ class WeatherReportService
     scope = user.weathers.includes(:user).order(created_at: :desc)
 
     if filters[:zip_code].present?
-      scope = scope.where("zip ILIKE ?", "%#{filters[:zip_code]}%")
+      scope = scope.where("zip_code ILIKE ?", "%#{filters[:zip_code]}%")
     end
 
     if filters[:created_at_start].present?
@@ -49,7 +49,7 @@ class WeatherReportService
 
       filtered_weathers.find_each do |weather|
         csv << [
-          weather.zip,
+          weather.zip_code,
           weather.temperature,
           weather.temp_min,
           weather.temp_max,
@@ -77,7 +77,7 @@ class WeatherReportService
       # Dados
       filtered_weathers.find_each do |weather|
         sheet.add_row [
-          weather.zip,
+          weather.zip_code,
           weather.temperature,
           weather.temp_min,
           weather.temp_max,
@@ -130,7 +130,7 @@ class WeatherReportService
 
         filtered_weathers.limit(100).each do |weather| # Limitar para não sobrecarregar o PDF
           data << [
-            weather.zip,
+            weather.zip_code,
             "#{weather.temperature}°C",
             "#{weather.temp_min}°C",
             "#{weather.temp_max}°C",

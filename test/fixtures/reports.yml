@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  format: MyString
+  status: MyString
+  filters: MyText
+  file_data: 
+  email_notification: false
+  completed_at: 2025-09-25 18:03:09
+  error_message: MyText
+
+two:
+  user: two
+  format: MyString
+  status: MyString
+  filters: MyText
+  file_data: 
+  email_notification: false
+  completed_at: 2025-09-25 18:03:09
+  error_message: MyText

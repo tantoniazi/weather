@@ -6,7 +6,7 @@ class CreateWeathers < ActiveRecord::Migration[8.0]
       t.string :temp_max
       t.string :description
       t.string :zip_code
-      t.reference :user
+      t.references :user, null: false, foreign_key: true
       t.timestamps
     end
   end

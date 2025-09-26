@@ -1,1 +1,256 @@
-// Sassy
+// Custom Bootstrap enhancements for Weather System
+// Note: Bootstrap is loaded via CDN, so we define our own variables
+
+// Custom color palette
+:root {
+  --weather-primary: #0d6efd;
+  --weather-secondary: #6c757d;
+  --weather-success: #198754;
+  --weather-info: #0dcaf0;
+  --weather-warning: #ffc107;
+  --weather-danger: #dc3545;
+  --weather-light: #f8f9fa;
+  --weather-dark: #212529;
+  --weather-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+// Global styles
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+// Navigation enhancements
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  transform: translateY(-1px);
+}
+
+// Card enhancements
+.card {
+  border: none;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-header {
+  border-radius: 15px 15px 0 0 !important;
+  border: none;
+}
+
+// Button enhancements
+.btn {
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--weather-gradient);
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+// Form enhancements
+.form-control {
+  border-radius: 10px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--weather-primary);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.form-control-lg {
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+}
+
+// Weather result animations
+.weather-result {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Weather info cards
+.weather-info {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.weather-info:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+}
+
+// Temperature display
+.display-4 {
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Alert enhancements
+.alert {
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  color: #155724;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  color: #721c24;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+  color: #0c5460;
+}
+
+// Footer enhancements
+footer {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .card {
+    margin: 0 1rem;
+  }
+  
+  .weather-info {
+    margin-bottom: 1rem;
+  }
+  
+  .display-4 {
+    font-size: 2.5rem;
+  }
+}
+
+// Loading animation
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Custom utilities
+.text-gradient {
+  background: var(--weather-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-custom {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+// Icon enhancements
+.fas, .far, .fab {
+  transition: all 0.3s ease;
+}
+
+.btn:hover .fas,
+.btn:hover .far,
+.btn:hover .fab {
+  transform: scale(1.1);
+}
+
+// Form validation styles
+.was-validated .form-control:valid {
+  border-color: var(--weather-success);
+}
+
+.was-validated .form-control:invalid {
+  border-color: var(--weather-danger);
+}
+
+// Custom pagination styles
+.pagination {
+  .page-link {
+    color: var(--weather-primary);
+    border-color: #dee2e6;
+    transition: all 0.3s ease;
+  }
+  
+  .page-link:hover {
+    color: #fff;
+    background-color: var(--weather-primary);
+    border-color: var(--weather-primary);
+    transform: translateY(-1px);
+  }
+  
+  .page-item.active .page-link {
+    background-color: var(--weather-primary);
+    border-color: var(--weather-primary);
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.3);
+  }
+  
+  .page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #dee2e6;
+  }
+}

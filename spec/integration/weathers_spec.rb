@@ -10,7 +10,7 @@ RSpec.describe "api/v1/weathers", type: :request do
       produces "application/json"
       security [Bearer: []]
 
-      parameter name: :zip, in: :path, type: :string, description: "CEP brasileiro (8 dígitos)", example: "01310100"
+      parameter name: :zip_code, in: :path, type: :string, description: "CEP brasileiro (8 dígitos)", example: "01310100"
 
       response(200, "sucesso") do
         let(:zip) { "01310100" }

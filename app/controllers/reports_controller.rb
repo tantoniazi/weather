@@ -4,6 +4,7 @@ class ReportsController < ApplicationController
   def index
     @weathers = filtered_weathers.page(params[:page]).per(10)
     @total_count = filtered_weathers.count
+    @reports = current_user.reports.recent.page(params[:reports_page]).per(5)
 
     respond_to do |format|
       format.html
@@ -19,27 +20,36 @@ class ReportsController < ApplicationController
       return
     end
 
-    report_service = WeatherReportService.new(current_user, filter_params)
+    # Criar registro do relatório
+    report = current_user.reports.create!(
+      format: format,
+      status: "pending",
+      filters: filter_params.to_h,
+      email_notification: params[:email_notification] == "1",
+    )
 
-    begin
-      case format
-      when "csv"
-        send_data report_service.generate_report(:csv),
-                  filename: "relatorio_clima_#{Date.current.strftime("%Y%m%d")}.csv",
-                  type: "text/csv"
-      when "xlsx"
-        send_data report_service.generate_report(:xlsx),
-                  filename: "relatorio_clima_#{Date.current.strftime("%Y%m%d")}.xlsx",
-                  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      when "pdf"
-        send_data report_service.generate_report(:pdf),
-                  filename: "relatorio_clima_#{Date.current.strftime("%Y%m%d")}.pdf",
-                  type: "application/pdf"
-      end
-    rescue => e
-      Rails.logger.error "Erro ao gerar relatório: #{e.message}"
-      redirect_to reports_path, alert: "Erro ao gerar relatório: #{e.message}"
+    # Enfileirar job para processamento em background
+    ReportGenerationJob.perform_later(
+      current_user.id,
+      filter_params.to_h,
+      format,
+      report.id
+    )
+
+    redirect_to reports_path, notice: "Relatório sendo gerado em background. Você será notificado quando estiver pronto."
+  end
+
+  def download
+    report = current_user.reports.find(params[:id])
+
+    unless report.completed?
+      redirect_to reports_path, alert: "Relatório ainda não está pronto."
+      return
     end
+
+    send_data report.file_data,
+              filename: report.filename,
+              type: report.content_type
   end
 
   private

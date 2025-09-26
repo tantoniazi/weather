@@ -1,19 +1,15 @@
-volumes:
-  pgadmin_data:
-  bundle_cache: 
-
 services:
   weather-pg:
     container_name: weather-pg
     platform: linux/amd64
     image: postgres:16
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ./db/postgres/data:/var/lib/postgresql/data
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: weather_development
+
     ports:
-      - ${PG_PORT}:5432
+      - 5432:5432
     restart: always
 
   weather-redis:
@@ -23,16 +19,16 @@ services:
     volumes:
     - ./db/redis/data:/data
     ports:
-      - ${REDIS_PORT}:6379
+      - 6379:6379
     restart: always
 
-  mailhog:
-    container_name: mailhog
+  weather-mailhog:
+    container_name: weather-mailhog
     platform: linux/amd64
     image: mailhog/mailhog
     ports:
-      - "8025:8025"  # Interface web do MailHog
-      - "1025:1025"  # SMTP server
+      - "8025:8025" 
+      - "1025:1025"  
     restart: always
 
   web:
@@ -43,14 +39,16 @@ services:
     build: .
     env_file:
       - .env
+    environment:
+      - RAILS_ENV=development
+      - BUNDLE_WITHOUT=
+      - DATABASE_URL=postgresql://postgres:password@weather-pg:5432/weather_development
     depends_on:
       - weather-pg
       - weather-redis
-      - mailhog
-    command: ./bin/start
+      - weather-mailhog
     volumes:
-      - .:/app
-      - bundle_cache:/usr/local/bundle
+      - .:/rails
     ports:
-      - 3000
+      - "3000:3000"
     restart: always  

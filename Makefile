@@ -13,7 +13,7 @@ help: ## Show this help
 
 # Container Management Commands
 up: ## Iniciar todos os serviços
-	docker compose -p weather up -d --remove-orphans
+	docker compose -p weather up -d --remove-orphans --build
 
 down: ## Parar todos os serviços
 	docker compose -p weather down

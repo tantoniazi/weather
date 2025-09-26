@@ -53,24 +53,97 @@
         <div class="card-body">
           <p class="text-muted">Total de registros encontrados: <strong><%= @total_count %></strong></p>
           
-          <div class="btn-group" role="group">
-            <%= link_to export_reports_path(format: "csv", **params.permit(:zip_code, :created_at_start, :created_at_end)),
-                        class: "btn btn-success", method: :post do %>
-              <i class="fas fa-file-csv"></i> Exportar CSV
-            <% end %>
+          <%= form_with url: export_reports_path, method: :post, local: true, class: "mb-3" do |form| %>
+            <%= form.hidden_field :zip_code, value: params[:zip_code] %>
+            <%= form.hidden_field :created_at_start, value: params[:created_at_start] %>
+            <%= form.hidden_field :created_at_end, value: params[:created_at_end] %>
             
-            <%= link_to export_reports_path(format: "xlsx", **params.permit(:zip_code, :created_at_start, :created_at_end)),
-                        class: "btn btn-primary", method: :post do %>
-              <i class="fas fa-file-excel"></i> Exportar Excel
-            <% end %>
+            <div class="form-check mb-3">
+              <%= form.check_box :email_notification, class: "form-check-input" %>
+              <%= form.label :email_notification, "Receber notificação por email quando o relatório estiver pronto", class: "form-check-label" %>
+            </div>
             
-            <%= link_to export_reports_path(format: "pdf", **params.permit(:zip_code, :created_at_start, :created_at_end)),
-                        class: "btn btn-danger", method: :post do %>
-              <i class="fas fa-file-pdf"></i> Exportar PDF
-            <% end %>
-          </div>
+            <div class="btn-group" role="group">
+              <%= form.submit "Exportar CSV", name: "format", value: "csv", class: "btn btn-success" %>
+              <%= form.submit "Exportar Excel", name: "format", value: "xlsx", class: "btn btn-primary" %>
+              <%= form.submit "Exportar PDF", name: "format", value: "pdf", class: "btn btn-danger" %>
+            </div>
+          <% end %>
         </div>
       </div>
+
+      <!-- Relatórios Recentes -->
+      <% if @reports.any? %>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-history"></i> Relatórios Recentes</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Formato</th>
+                    <th>Status</th>
+                    <th>Criado em</th>
+                    <th>Tamanho</th>
+                    <th>Tempo</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @reports.each do |report| %>
+                    <tr>
+                      <td>
+                        <span class="badge bg-<%= case report.format
+                                                  when "csv" then "success"
+                                                  when "xlsx" then "primary"
+                                                  when "pdf" then "danger"
+                                                  end %>">
+                          <%= report.format.upcase %>
+                        </span>
+                      </td>
+                      <td>
+                        <span class="badge bg-<%= case report.status
+                                                  when "pending" then "warning"
+                                                  when "processing" then "info"
+                                                  when "completed" then "success"
+                                                  when "failed" then "danger"
+                                                  end %>">
+                          <%= report.status.humanize %>
+                        </span>
+                      </td>
+                      <td>
+                        <small><%= report.created_at.strftime("%d/%m/%Y %H:%M") %></small>
+                      </td>
+                      <td>
+                        <small><%= report.file_size_human %></small>
+                      </td>
+                      <td>
+                        <small><%= report.processing_time_human %></small>
+                      </td>
+                      <td>
+                        <% if report.completed? %>
+                          <%= link_to "Download", download_report_path(report), class: "btn btn-sm btn-outline-primary" %>
+                        <% elsif report.failed? %>
+                          <small class="text-danger" title="<%= report.error_message %>">Erro</small>
+                        <% else %>
+                          <small class="text-muted">Processando...</small>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Paginação dos relatórios -->
+            <div class="d-flex justify-content-center mt-3">
+              <%= paginate @reports, param_name: :reports_page, theme: "twitter-bootstrap-4" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
 
       <!-- Tabela de Dados -->
       <div class="card">
@@ -95,7 +168,7 @@
                 <tbody>
                   <% @weathers.each do |weather| %>
                     <tr>
-                      <td><%= weather.zip %></td>
+                      <td><%= weather.zip_code %></td>
                       <td>
                         <span class="badge bg-primary">
                           <%= weather.temperature %>°C

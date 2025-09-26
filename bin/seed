@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+# Simple script to run database seeds
+# Usage: ./bin/seed
+
+puts "🌱 Running database seeds..."
+puts "=" * 50
+
+# Run the seeds
+system("rails db:seed")
+
+puts "\n✅ Seeds completed!"
+puts "\n💡 You can now:"
+puts "   - Login to web interface: http://localhost:3000"
+puts "   - Use API with the token shown above"
+puts "   - Test the system with pre-loaded data"

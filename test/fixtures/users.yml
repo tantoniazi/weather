@@ -1,11 +1,28 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  email: "test@example.com"
+  encrypted_password: <%= User.new.send(:password_digest, 'password123') %>
+  confirmed_at: <%= Time.current %>
+  authentication_token: "test_token_123456789"
+  address: "Test Address"
+  country: "Brasil"
+  zip_code: "01310-100"
+
+api_user:
+  email: "api@example.com"
+  encrypted_password: <%= User.new.send(:password_digest, 'api123456') %>
+  confirmed_at: <%= Time.current %>
+  authentication_token: "api_token_987654321"
+  address: "API Address"
+  country: "Brasil"
+  zip_code: "20040-020"
+
+two:
+  email: "test2@example.com"
+  encrypted_password: <%= User.new.send(:password_digest, 'password456') %>
+  confirmed_at: <%= Time.current %>
+  authentication_token: "test_token_456789123"
+  address: "Test Address 2"
+  country: "Brasil"
+  zip_code: "30112-000"

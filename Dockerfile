@@ -28,12 +28,8 @@ RUN apt-get update -qq && \
         && \ 
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
-
+ENV BUNDLE_PATH="/usr/local/bundle"
+    
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
@@ -54,9 +50,6 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
 # Final stage for app image
 FROM base
 
@@ -70,9 +63,10 @@ RUN groupadd --system --gid 1000 rails && \
     chown -R rails:rails db log storage tmp
 USER 1000:1000
 
+RUN gem install foreman
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Foreman by default, this can be overwritten at runtime
-EXPOSE 80
+EXPOSE 3000
 CMD ["foreman", "start", "-f", "Procfile.dev"]
